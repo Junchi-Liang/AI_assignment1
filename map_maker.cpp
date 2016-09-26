@@ -3,6 +3,18 @@
 namespace map_maker_ns
 {
 
+	result_path::result_path()
+	{
+		list_row.clear();
+		list_col.clear();
+	}
+
+	result_path::~result_path()
+	{
+		list_row.clear();
+		list_col.clear();
+	}
+
 	// compute cost for the whole path given map_input as input map
 	double result_path::compute_cost(const grid_map &map_input)
 	{
