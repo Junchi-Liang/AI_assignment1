@@ -42,9 +42,9 @@ namespace map_maker_ns
 	// data structure for the result path
 	class result_path
 	{
-		result_path();
-		~result_path();
 		public:
+			result_path();
+			~result_path();
 			std::vector<int> list_row, list_col;
 			double compute_cost(const grid_map &map_input); // compute cost for the whole path given map_input as input map
 			static double moving_cost(int src_col, int src_row, int dest_col, int dest_row, const grid_map &map_input); // return the cost of moving from (src_col, src_row) to (dest_col, dest_row) in the map_input
