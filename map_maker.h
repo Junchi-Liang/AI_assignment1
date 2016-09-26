@@ -28,7 +28,7 @@ namespace map_maker_ns
 	const double COST_UNBLK_HARD_DIAG = (sqrt(2) + sqrt(8)) / 2;
 	const double COST_HIGHWAY_COEFFICIENT = 1 / 4;
 
-	// map data
+	// map data, assume both columns and rows start from 0
 	class grid_map
 	{
 		private:
