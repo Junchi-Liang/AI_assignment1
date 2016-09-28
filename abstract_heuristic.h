@@ -7,7 +7,7 @@
 
 #include "map_maker.h"
 
-namespace abstract_heuristic_ns
+namespace heuristic_ns
 {
 	class abstract_heuristic
 	{
