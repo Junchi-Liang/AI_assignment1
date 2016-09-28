@@ -12,7 +12,7 @@ namespace solver_ns
 {
 	class abstract_solver
 	{
-		private:
+		protected:
 			heuristic_ns::abstract_heuristic *heuristic;
 			util_ns::my_heap *fringe;
 			util_ns::my_hash *closed_list;
@@ -20,7 +20,7 @@ namespace solver_ns
 			int n_columns, m_rows;
 
 			// return the f-value for the postion (cur_col, cur_row) while the goal is the (goal_col, goal_row) and the input map is map_input
-			virtual double f(double g, int cur_col, int cur_row, int goal_col, int goal_row, const map_maker_ns::grid_map &map_input);
+			virtual double f(double g, int cur_col, int cur_row, int goal_col, int goal_row, const map_maker_ns::grid_map &map_input) = 0;
 
 			// initialize with a map of size (size_of_columns * size_of_rows)
 			void init(const map_maker_ns::grid_map &map_input, int size_of_columns, int size_of_rows)
