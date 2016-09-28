@@ -27,6 +27,8 @@ namespace util_ns
 			int move(int node); // move the node in order to maintain the heap, return final postion of this node
 			bool exist(int position_col, int position_row); // check if the cell (position_col, position_row) exists in the heap, return true if exists
 			bool update(int position_col, int position_row, double f, double g); // update the cell (position_col, position_row) with f-value as f and g-value as g
+			bool get_value(int position_col, int position_row, double &f, double &g); // get the f and g value
+			static bool better(double f_a, double g_a, double f_b, double g_b); // return true when a is better than b
 	};
 
 	// our implement for the hash used for the closed list
