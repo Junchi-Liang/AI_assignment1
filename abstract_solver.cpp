@@ -33,6 +33,7 @@ namespace solver_ns
 		double cur_f, cur_g, next_f, next_g, edge_cost, exist_f, exist_g;
 
 		init(map_input, map_maker_ns::MAX_COLUMN, map_maker_ns::MAX_COLUMN);
+		expanded_nodes = 0;
 		fringe->insert(start_col, start_row, f(0, start_col, start_row, goal_col, goal_row, map_input), 0);
 		set_trace_back(start_col, start_row, start_col, start_row);
 
@@ -44,6 +45,7 @@ namespace solver_ns
 				return true;
 			}
 			closed_list->insert(cur_col, cur_row);
+			expanded_nodes++;
 			for (i = 0; i < map_maker_ns::MAX_DIR; i++)
 			{
 				next_col = cur_col + map_maker_ns::DELTA_COL[i];
