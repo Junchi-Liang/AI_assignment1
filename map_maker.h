@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <cmath>
 #include <vector>
+#include <string>
+#include <iterator>
 #include <list>
 #include <time.h>
 #include <fstream>
@@ -14,8 +16,6 @@
 
 namespace map_maker_ns
 {
-
-	const int MAX_COLUMN = 160, MAX_ROW = 120;
 
 	const char BLOCKED = '0', UNBLOCKED = '1', HARD_TRAVERSE = '2', UNBLOCKED_HIGHWAY = 'a', HARD_HIGHWAY = 'b';
 
@@ -47,11 +47,17 @@ namespace map_maker_ns
 	class grid_map
 	{
 		private:
-			char map_bit[MAX_COLUMN][MAX_ROW];
+			int MAX_COLUMN, MAX_ROW;
+			char** map_bit;
 			int hardTraverse_bit[8][2]; // storing the centers of 8 different harder traveral area
 			int start_cell[2];
 			int goal_cell[2];
 		public:
+			std::list<int> col_rand_highway[4], row_rand_highway[4]; // storing the cells of 4 different highways
+			grid_map(int MAX_COLUMN=160,int MAX_ROW=120);
+			~grid_map();
+			void set_size(int MAX_COLUMN, int MAX_ROW);
+			int* get_size();
 			char read_bit(int position_col, int position_row) const; // return the cell in column position_col and row position_row
 			void set_bit(int position_col, int position_row, char bit_input); // set the cell in column position_col and row position_row as bit_input 
 			bool check_available(int position_col, int position_row);  // check if the postion(position_col, position_row) is available (legal and not blocked)
