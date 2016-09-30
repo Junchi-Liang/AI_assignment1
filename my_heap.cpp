@@ -63,14 +63,20 @@ namespace util_ns
 		heap_index[b_row * n_columns + b_col] = a;
 	}
 
+	// return true when a is better than b
+	bool my_heap::better(double f_a, double g_a, double f_b, double g_b)
+	{
+		if (f_b < f_a)
+			return false;
+		if (f_a < f_b)
+			return true;
+		return (g_a < g_b);
+	}
+	
 	// return true when node a is better than node b
 	bool my_heap::compare(int a, int b)
 	{
-		if (heap_f[b] < heap_f[a])
-			return false;
-		if (heap_f[a] < heap_f[b])
-			return true;
-		return (heap_g[a] < heap_g[b]);
+		return better(heap_f[a], heap_g[a], heap_f[b], heap_g[b]);
 	}
 	
 	// move the node in order to maintain the heap, return final postion of this node
@@ -155,6 +161,16 @@ namespace util_ns
 		heap_f[node] = f;
 		heap_g[node] = g;
 		move(node);
+		return true;
+	}
+
+	// get the f and g value
+	bool my_heap::get_value(int position_col, int position_row, double &f, double &g)
+	{
+		if (!exist(position_col, position_row))
+			return false;
+		f = heap_f[heap_index[position_row * n_columns + position_col]];
+		g = heap_g[heap_index[position_row * n_columns + position_col]];
 		return true;
 	}
 
