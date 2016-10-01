@@ -61,6 +61,7 @@ namespace util_ns
 
 		heap_index[a_row * n_columns + a_col] = b;
 		heap_index[b_row * n_columns + b_col] = a;
+		return true;
 	}
 
 	// return true when a is better than b
