@@ -41,6 +41,7 @@ namespace map_maker_ns
 	const int COLOR_HARD_TRAVERSE_HIGHWAY[3] = { 135,206,235 }; // Sky Blue
 	const int COLOR_START[3] = { 0,255,0 }; // Green
 	const int COLOR_GOAL[3] = { 255,0,0 }; // Red
+	const int COLOR_RESULT[3] = { 100,200,100 };
 
 
 	// map data, assume both columns and rows start from 0
@@ -91,7 +92,7 @@ namespace map_maker_ns
 			void write_img_to_disk(char* dest); // store the map_output into an image file in the path given by dest
 			static cv::Mat show_map_img(const grid_map &map_input); // display and return the map_input as an image
 			cv::Mat show_map_img(); // display and return the map_input as an image
-			static void show_result(const grid_map &map_input, const result_path &result); // optional: display the map_input and the result
+			static cv::Mat show_result(const grid_map &map_input, const result_path &result); // optional: display the map_input and the result
 			static void read_text(char* src, grid_map &map_loaded); // read a text file in path given by src and store the map into map_loaded
 			void read_text(char* src); // read a text file in path given
 			
