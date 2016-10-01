@@ -84,9 +84,9 @@ namespace map_maker_ns
 	// map maker
 	class map_maker
  	{
-		private:
-			grid_map map_output; // a map built by this map maker
 		public:
+			grid_map map_output; // a map built by this map maker
+//		public:
 			void map_build(); // build a new map and store it into map_output
 			void write_text_to_disk(char* dest); // store the map_output into a text file in the path given by dest
 			void write_img_to_disk(char* dest); // store the map_output into an image file in the path given by dest
