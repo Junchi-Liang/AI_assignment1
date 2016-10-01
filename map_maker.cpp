@@ -430,9 +430,9 @@ namespace map_maker_ns
 				{
 					for (h = 0; h < amplify_num; ++h)
 					{
-						result_map.at<cv::Vec3b>(i*amplify_num + k, j*amplify_num + h)[0] = COLOR_RESULT[2];
-						result_map.at<cv::Vec3b>(i*amplify_num + k, j*amplify_num + h)[1] = COLOR_RESULT[1];
-						result_map.at<cv::Vec3b>(i*amplify_num + k, j*amplify_num + h)[2] = COLOR_RESULT[0];
+						result_map.at<cv::Vec3b>(result.list_row[i]*amplify_num + k, result.list_col[j]*amplify_num + h)[0] = COLOR_RESULT[2];
+						result_map.at<cv::Vec3b>(result.list_row[i] *amplify_num + k, result.list_col[j]*amplify_num + h)[1] = COLOR_RESULT[1];
+						result_map.at<cv::Vec3b>(result.list_row[i] *amplify_num + k, result.list_col[j]*amplify_num + h)[2] = COLOR_RESULT[0];
 					}
 				}
 			}
