@@ -57,15 +57,15 @@ namespace map_maker_ns
 			grid_map(int MAX_COLUMN=160,int MAX_ROW=120);
 			~grid_map();
 			void set_size(int MAX_COLUMN, int MAX_ROW);
-			int* get_size();
+			int* get_size() const;
 			char read_bit(int position_col, int position_row) const; // return the cell in column position_col and row position_row
 			void set_bit(int position_col, int position_row, char bit_input); // set the cell in column position_col and row position_row as bit_input 
-			bool check_available(int position_col, int position_row);  // check if the postion(position_col, position_row) is available (legal and not blocked)
-			int* get_start_cell(); // get the position of start cell
-			int* get_goal_cell(); // get the positiion of goal cell
+			bool check_available(int position_col, int position_row) const;  // check if the postion(position_col, position_row) is available (legal and not blocked)
+			int* get_start_cell() const; // get the position of start cell
+			int* get_goal_cell() const; // get the positiion of goal cell
 			void set_start_cell(int position_col, int position_row); // set the position of start cell
 			void set_goal_cell(int position_col, int position_row); // set the position of goal cell
-			int* get_hardTraverse_cell(int index); // get the position of the index-th hardTraverse cell
+			int* get_hardTraverse_cell(int index) const; // get the position of the index-th hardTraverse cell
 			void set_hardTraverse_cell(int position_col, int position_row, int index); // set all hardTraverse cells
 	};
 
@@ -89,9 +89,12 @@ namespace map_maker_ns
 			void map_build(); // build a new map and store it into map_output
 			void write_text_to_disk(char* dest); // store the map_output into a text file in the path given by dest
 			void write_img_to_disk(char* dest); // store the map_output into an image file in the path given by dest
+			static cv::Mat show_map_img(const grid_map &map_input); // display and return the map_input as an image
 			cv::Mat show_map_img(); // display and return the map_input as an image
 			static void show_result(const grid_map &map_input, const result_path &result); // optional: display the map_input and the result
-			void read_text(char* src); // read a text file in path given by src and store the map into map_loaded
+			static void read_text(char* src, grid_map &map_loaded); // read a text file in path given by src and store the map into map_loaded
+			void read_text(char* src); // read a text file in path given
+			
 	};
 
 }
