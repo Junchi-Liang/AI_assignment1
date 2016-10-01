@@ -413,6 +413,34 @@ namespace map_maker_ns
 		fout.close();
 	}
 
+	// optional: display the map_input and the result
+	cv::Mat map_maker::show_result(const grid_map &map_input, const result_path &result)
+	{
+		cv::Mat result_map;
+		result_map = show_map_img(map_input);
+		int i, j;
+		int k, h;
+		int amplify_num = 5;
+
+		for (i = 0; i < result.list_row.size(); ++i)
+		{
+			for (j = 0; j < result.list_col.size(); ++j)
+			{
+				for (k = 0; k < amplify_num; ++k)
+				{
+					for (h = 0; h < amplify_num; ++h)
+					{
+						result_map.at<cv::Vec3b>(i*amplify_num + k, j*amplify_num + h)[0] = COLOR_RESULT[2];
+						result_map.at<cv::Vec3b>(i*amplify_num + k, j*amplify_num + h)[1] = COLOR_RESULT[1];
+						result_map.at<cv::Vec3b>(i*amplify_num + k, j*amplify_num + h)[2] = COLOR_RESULT[0];
+					}
+				}
+			}
+		}
+
+		return result_map;
+	}
+
 	// display the map_input as an image using an exist grid_map
 	cv::Mat map_maker::show_map_img(const grid_map &map_input)
 	{
