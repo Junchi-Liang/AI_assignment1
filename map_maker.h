@@ -99,7 +99,7 @@ namespace map_maker_ns
 			static cv::Mat show_result(const grid_map &map_input, const result_path &result); // optional: display the map_input and the result
 			static void read_text(char* src, grid_map &map_loaded); // read a text file in path given by src and store the map into map_loaded
 			void read_text(char* src); // read a text file in path given
-			void set_map_start_goal(); // change the start and goal cell in the map
+			static void reset_map_start_goal(grid_map &map_input); // change the start and goal cell in the map
 			
 	};
 

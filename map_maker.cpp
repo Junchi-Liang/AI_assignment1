@@ -562,6 +562,29 @@ namespace map_maker_ns
 		cv::imwrite(dest, mat_img);
 	}
 
+	void map_maker::reset_map_start_goal(grid_map &mapinput)
+	{
+		int start_col, start_row;
+		int goal_col, goal_row;
+		// Decide the start cell and the goal cell
+		// start cell
+		do
+		{
+			start_col = 1 + (rand() % mapinput.get_col_size() - 2);
+			start_row = 1 + (rand() % mapinput.get_row_size() - 2);
+		} while (start_col>20 && start_col<(mapinput.get_col_size() - 20) && start_row>20 && start_row<(mapinput.get_row_size() - 20));
+		// goal cell
+		do
+		{
+			goal_col = 1 + (rand() % mapinput.get_col_size() - 2);
+			goal_row = 1 + (rand() % mapinput.get_row_size() - 2);
+		} while ((goal_col>20 && goal_col<(mapinput.get_col_size() - 20) && goal_row>20 && goal_row<(mapinput.get_row_size() - 20)) \
+			|| abs(goal_row - start_row) + abs(goal_col - start_col)<100);
+		mapinput.set_start_cell(start_col, start_row);
+		mapinput.set_goal_cell(goal_col, goal_row);
+
+	}
+
 	// read a text file in path given by src and store the map into map_loaded
 	void map_maker::read_text(char* src, grid_map &map_loaded)
 	{
