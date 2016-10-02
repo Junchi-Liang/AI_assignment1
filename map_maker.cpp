@@ -87,23 +87,35 @@ namespace map_maker_ns
 	//check if the postion(position_col, position_row) is available (legal and not blocked)
 	bool grid_map::check_available(int position_col, int position_row) const
 	{
-		if (position_col<0 || position_col>get_size()[0] || position_row<0 || position_row>get_size()[1])
+		if (position_col < 0 || position_col > get_col_size() || position_row < 0 || position_row > get_row_size())
 			return false;
-		if (grid_map::read_bit(position_col, position_row) == BLOCKED)
+		if (read_bit(position_col, position_row) == BLOCKED)
 			return false;
 		return true;
 	}
 
-    // get the position of start cell
-	int* grid_map::get_start_cell() const
+    // get the col position of start cell
+	int grid_map::get_col_start() const
 	{
-		return (int*)(start_cell);
+		return start_cell[0];
+	}
+
+	// get the row position of start cell
+	int grid_map::get_row_start() const
+	{
+		return start_cell[1];
 	}
 	
-	// get the positiion of goal cell
-	int* grid_map::get_goal_cell() const
+	// get the col positiion of goal cell
+	int grid_map::get_col_goal() const
 	{
-		return (int*)(goal_cell);
+		return goal_cell[0];
+	}
+
+	// get the row position of goal cell
+	int grid_map::get_row_goal() const
+	{
+		return goal_cell[1];
 	}
 
 	// set the position of start cell
@@ -120,10 +132,16 @@ namespace map_maker_ns
 		goal_cell[1] = position_row;
 	}
 
-	// get the position of the index-th hardTraverse cell
-	int* grid_map::get_hardTraverse_cell(int index) const
+	// get the col position of the index-th hardTraverse cell
+	int grid_map::get_col_hardTraverse(int index) const
 	{
-		return (int*)(hardTraverse_bit[index]);
+		return hardTraverse_bit[index][0];
+	}
+
+	// get the row position of the index-th hardTraverse cell
+	int grid_map::get_row_hardTraverse(int index) const
+	{
+		return hardTraverse_bit[index][1];
 	}
 
 	// set all hardTraverse cells
@@ -140,13 +158,16 @@ namespace map_maker_ns
 		MAX_ROW = row_size;
 	}
 
-	// get the size of the map
-	int* grid_map::get_size() const
+	// get the Max col of the map
+	int grid_map::get_col_size() const
 	{
-		int size[2];
-		size[0] = MAX_COLUMN;
-		size[1] = MAX_ROW;
-		return size;
+		return MAX_COLUMN;
+	}
+
+	// get the Max row of the map
+	int grid_map::get_row_size() const
+	{
+		return MAX_ROW;
 	}
 
 	grid_map::grid_map(int col, int row)
@@ -174,21 +195,21 @@ namespace map_maker_ns
 		bool highway_valid = true, highway_finished = false;
 
 		// First step: Initialize these maps by setting all cells to unblocked cells
-		for (i = 0; i < map_output.get_size()[0]; ++i)
-			for (j = 0; j < map_output.get_size()[1]; ++j)
+		for (i = 0; i < map_output.get_col_size(); ++i)
+			for (j = 0; j < map_output.get_row_size(); ++j)
 				map_output.set_bit(i, j, UNBLOCKED);
 
 		// Then decide the placement of harder to traverse cells
 		for (i = 0; i < 8; ++i) 
 		{
-			map_output.set_hardTraverse_cell(15 + rand() % (map_output.get_size()[0] - 30), 15 + rand() % (map_output.get_size()[1] - 30), i);
+			map_output.set_hardTraverse_cell(15 + rand() % (map_output.get_col_size() - 30), 15 + rand() % (map_output.get_row_size() - 30), i);
 
 			for (j = -15; j <= 15; ++j)
 			{
 				for (k = -15; k <= 15; ++k)
 				{
 					if (rand() / double(RAND_MAX) >= 0.5)
-						map_output.set_bit(map_output.get_hardTraverse_cell(i)[0] + j, map_output.get_hardTraverse_cell(i)[1] + k, HARD_TRAVERSE);
+						map_output.set_bit(map_output.get_col_hardTraverse(i) + j, map_output.get_row_hardTraverse(i) + k, HARD_TRAVERSE);
 				}
 			}
 		}
@@ -199,15 +220,15 @@ namespace map_maker_ns
 			// randomly pick a new point on the edge
 			if (rand() / double(RAND_MAX) <= 4.0/7)
 			{
-					map_output.col_rand_highway[i].push_back(1 + rand() % (map_output.get_size()[0] - 2));
-					map_output.row_rand_highway[i].push_back((rand() / double(RAND_MAX) >= 0.5) ? 0 : (map_output.get_size()[1] - 1));
+					map_output.col_rand_highway[i].push_back(1 + rand() % (map_output.get_col_size() - 2));
+					map_output.row_rand_highway[i].push_back((rand() / double(RAND_MAX) >= 0.5) ? 0 : (map_output.get_row_size() - 1));
 					col_dir = 0;
 					row_dir = (map_output.row_rand_highway[i].back() == 0) ? 1 : -1;
 			}
 			else
 			{
-				map_output.col_rand_highway[i].push_back((rand() / double(RAND_MAX) >= 0.5) ? 0 : (map_output.get_size()[0] - 1));
-				map_output.row_rand_highway[i].push_back(1 + rand() % (map_output.get_size()[1] - 2));
+				map_output.col_rand_highway[i].push_back((rand() / double(RAND_MAX) >= 0.5) ? 0 : (map_output.get_col_size() - 1));
+				map_output.row_rand_highway[i].push_back(1 + rand() % (map_output.get_row_size() - 2));
 				col_dir = (map_output.col_rand_highway[i].back() == 0) ? 1 : -1;
 				row_dir = 0;
 			}
@@ -218,11 +239,11 @@ namespace map_maker_ns
 			else if (map_output.read_bit(map_output.col_rand_highway[i].back(), map_output.row_rand_highway[i].back()) == HARD_TRAVERSE)
 				map_output.set_bit(map_output.col_rand_highway[i].back(), map_output.row_rand_highway[i].back(), HARD_HIGHWAY);
 			else
-			{
-				i -= 1;
+			{				
 				map_output.col_rand_highway[i].clear();
 				map_output.row_rand_highway[i].clear();
-				break;
+				i -= 1;
+				continue;
 			}
 
 			// break until the highway hit the edge or errors
@@ -250,7 +271,7 @@ namespace map_maker_ns
 
 					// check if this cell is edge or not
 					if (map_output.col_rand_highway[i].back() == 0 || map_output.row_rand_highway[i].back() == 0 || \
-						map_output.col_rand_highway[i].back() == map_output.get_size()[0] - 1 || map_output.row_rand_highway[i].back() == map_output.get_size()[1] - 1)
+						map_output.col_rand_highway[i].back() == (map_output.get_col_size() - 1) || map_output.row_rand_highway[i].back() == (map_output.get_row_size() - 1))
 					{
 						if (map_output.col_rand_highway[i].size() < 100)
 						{
@@ -323,10 +344,10 @@ namespace map_maker_ns
 		}
 		
 		// select the blocked cells (20%)
-		for (i = 0; i < 3840; ++i)
+		for (i = 0; i < map_output.get_col_size()*map_output.get_row_size()*0.2; ++i)
 		{	
-			col_rand_blocked = rand() % 160;
-			row_rand_blocked = rand() % 120;
+			col_rand_blocked = rand() % map_output.get_col_size();
+			row_rand_blocked = rand() % map_output.get_row_size();
 			if ((map_output.read_bit(col_rand_blocked, row_rand_blocked) != HARD_HIGHWAY) && \
 				(map_output.read_bit(col_rand_blocked, row_rand_blocked) != UNBLOCKED_HIGHWAY) && \
 				(map_output.read_bit(col_rand_blocked, row_rand_blocked) != BLOCKED))
@@ -339,15 +360,15 @@ namespace map_maker_ns
 		// start cell
 		do
 		{
-			start_col = rand() % 160;
-			start_row = rand() % 120;
-		} while (start_col>20 && start_col<140 && start_row>20 && start_row<100);
+			start_col = rand() % map_output.get_col_size();
+			start_row = rand() % map_output.get_row_size();
+		} while (start_col>20 && start_col<(map_output.get_col_size()-20) && start_row>20 && start_row<(map_output.get_row_size()-20));
 		// goal cell
 		do
 		{
-			goal_col = rand() % 160;
-			goal_row = rand() % 120;
-		} while ((goal_col>20 && goal_col<140 && goal_row>20 && goal_row<100) \
+			goal_col = rand() % map_output.get_col_size();
+			goal_row = rand() % map_output.get_row_size();
+		} while ((goal_col>20 && goal_col<(map_output.get_col_size() - 20) && goal_row>20 && goal_row<(map_output.get_row_size() - 20)) \
 			|| abs(goal_row-start_row)+abs(goal_col-start_col)<100);
 		map_output.set_start_cell(start_col, start_row);
 		map_output.set_goal_cell(goal_col, goal_row);
@@ -360,22 +381,22 @@ namespace map_maker_ns
 		int i, j;
 
 		fout.open(dest);
-		fout << map_output.get_start_cell()[0] << "," << map_output.get_start_cell()[1] << std::endl;
-		fout << map_output.get_goal_cell()[0] << "," << map_output.get_goal_cell()[1] << std::endl;
+		fout << map_output.get_row_start() << "," << map_output.get_col_start() << std::endl;
+		fout << map_output.get_row_goal() << "," << map_output.get_col_goal() << std::endl;
 
 		for (i = 0; i < 8; ++i)
-			fout << map_output.get_hardTraverse_cell(i)[0] << "," << map_output.get_hardTraverse_cell(i)[1] << std::endl;
+			fout << map_output.get_row_hardTraverse(i) << "," << map_output.get_col_hardTraverse(i) << std::endl;
 
-		fout << map_output.get_size()[1] << "," << map_output.get_size()[0] << std::endl;
+		fout << map_output.get_row_size() << "," << map_output.get_col_size() << std::endl;
 
 		// build the highway map
 		char** highway_map;
-		highway_map = new char *[map_output.get_size()[0]];
-		for (i = 0; i<map_output.get_size()[0]; i++)
-			highway_map[i] = new char[map_output.get_size()[1]];
+		highway_map = new char *[map_output.get_col_size()];
+		for (i = 0; i<map_output.get_col_size(); i++)
+			highway_map[i] = new char[map_output.get_row_size()];
 
-		for (i = 0; i < map_output.get_size()[0]; ++i)
-			for (j = 0; j < map_output.get_size()[1]; ++j)
+		for (i = 0; i < map_output.get_col_size(); ++i)
+			for (j = 0; j < map_output.get_row_size(); ++j)
 				highway_map[i][j] = '0';
 
 		std::list<int> highway[2];
@@ -394,9 +415,9 @@ namespace map_maker_ns
 		}
 
 
-		for (i = map_output.get_size()[1] - 1; i >= 0; --i)
+		for (i = map_output.get_row_size() - 1; i >= 0; --i)
 		{
-			for (j = 0; j < map_output.get_size()[0] - 1; ++j)
+			for (j = 0; j < map_output.get_col_size() - 1; ++j)
 			{
 				if (highway_map[j][i] == '0')
 					fout << map_output.read_bit(j, i) << ",";
@@ -430,9 +451,9 @@ namespace map_maker_ns
 				{
 					for (h = 0; h < amplify_num; ++h)
 					{
-						result_map.at<cv::Vec3b>(result.list_row[i]*amplify_num + k, result.list_col[j]*amplify_num + h)[0] = COLOR_RESULT[2];
-						result_map.at<cv::Vec3b>(result.list_row[i] *amplify_num + k, result.list_col[j]*amplify_num + h)[1] = COLOR_RESULT[1];
-						result_map.at<cv::Vec3b>(result.list_row[i] *amplify_num + k, result.list_col[j]*amplify_num + h)[2] = COLOR_RESULT[0];
+						result_map.at<cv::Vec3b>((map_input.get_row_size() - 1 - result.list_row[i])*amplify_num + k, result.list_col[j] * amplify_num + h)[0] = COLOR_RESULT[2];
+						result_map.at<cv::Vec3b>((map_input.get_row_size() - 1 - result.list_row[i])*amplify_num + k, result.list_col[j] * amplify_num + h)[1] = COLOR_RESULT[1];
+						result_map.at<cv::Vec3b>((map_input.get_row_size() - 1 - result.list_row[i])*amplify_num + k, result.list_col[j] * amplify_num + h)[2] = COLOR_RESULT[0];
 					}
 				}
 			}
@@ -445,16 +466,16 @@ namespace map_maker_ns
 	cv::Mat map_maker::show_map_img(const grid_map &map_input)
 	{
 		int amplify_num = 5;
-		cv::Mat map_image(map_input.get_size()[1] * amplify_num, map_input.get_size()[0] * amplify_num\
+		cv::Mat map_image(map_input.get_row_size() * amplify_num, map_input.get_col_size() * amplify_num\
 			,CV_8UC3, cv::Scalar(COLOR_BLOCKED[0], COLOR_BLOCKED[1], COLOR_BLOCKED[2]));
 		int i, j, k, h;
 
 		// color all kinds of cells
-		for (i = 0; i < map_input.get_size()[1]; ++i)
+		for (i = 0; i < map_input.get_row_size(); ++i)
 		{
-			for (j = 0; j < map_input.get_size()[0]; ++j)
+			for (j = 0; j < map_input.get_col_size(); ++j)
 			{
-				if (map_input.read_bit(j, 119 - i) == UNBLOCKED) // set the color of unblocked cells to white
+				if (map_input.read_bit(j, map_input.get_row_size()-1 - i) == UNBLOCKED) // set the color of unblocked cells to white
 				{
 					for (k = 0; k < amplify_num; ++k)
 					{
@@ -466,7 +487,7 @@ namespace map_maker_ns
 						}
 					}
 				}
-				else if (map_input.read_bit(j, 119 - i) == HARD_TRAVERSE) // set the color of hardTraverse cells to grey
+				else if (map_input.read_bit(j, map_input.get_row_size() - 1 - i) == HARD_TRAVERSE) // set the color of hardTraverse cells to grey
 				{
 					for (k = 0; k < amplify_num; ++k)
 					{
@@ -478,7 +499,7 @@ namespace map_maker_ns
 						}
 					}
 				}
-				else if (map_input.read_bit(j, 119 - i) == HARD_HIGHWAY) // set the color of hardTraverse highways cells to sky blue
+				else if (map_input.read_bit(j, map_input.get_row_size() - 1 - i) == HARD_HIGHWAY) // set the color of hardTraverse highways cells to sky blue
 				{
 					for (k = 0; k < amplify_num; ++k)
 					{
@@ -490,7 +511,7 @@ namespace map_maker_ns
 						}
 					}
 				}
-				else if (map_input.read_bit(j, 119 - i) == UNBLOCKED_HIGHWAY) // set the color of unblocked highways cells to blue
+				else if (map_input.read_bit(j, map_input.get_row_size() - 1 - i) == UNBLOCKED_HIGHWAY) // set the color of unblocked highways cells to blue
 				{
 					for (k = 0; k < amplify_num; ++k)
 					{
@@ -510,18 +531,18 @@ namespace map_maker_ns
 		{
 			for (h = 0; h < amplify_num; ++h)
 			{
-				map_image.at<cv::Vec3b>((119 - map_input.get_start_cell()[1]) * amplify_num + k, map_input.get_start_cell()[0]*amplify_num + h)[0] = COLOR_START[2];
-				map_image.at<cv::Vec3b>((119 - map_input.get_start_cell()[1]) * amplify_num + k, map_input.get_start_cell()[0]*amplify_num + h)[1] = COLOR_START[1];
-				map_image.at<cv::Vec3b>((119 - map_input.get_start_cell()[1]) * amplify_num + k, map_input.get_start_cell()[0]*amplify_num + h)[2] = COLOR_START[0];
+				map_image.at<cv::Vec3b>((map_input.get_row_size() - 1 - map_input.get_row_start()) * amplify_num + k, map_input.get_col_start()*amplify_num + h)[0] = COLOR_START[2];
+				map_image.at<cv::Vec3b>((map_input.get_row_size() - 1 - map_input.get_row_start()) * amplify_num + k, map_input.get_col_start()*amplify_num + h)[1] = COLOR_START[1];
+				map_image.at<cv::Vec3b>((map_input.get_row_size() - 1 - map_input.get_row_start()) * amplify_num + k, map_input.get_col_start()*amplify_num + h)[2] = COLOR_START[0];
 			}
 		}
 		for (k = 0; k < amplify_num; ++k)
 		{
 			for (h = 0; h < amplify_num; ++h)
 			{
-				map_image.at<cv::Vec3b>((119 - map_input.get_goal_cell()[1]) * amplify_num + k, map_input.get_goal_cell()[0] * amplify_num + h)[0] = COLOR_GOAL[2];
-				map_image.at<cv::Vec3b>((119 - map_input.get_goal_cell()[1]) * amplify_num + k, map_input.get_goal_cell()[0] * amplify_num + h)[1] = COLOR_GOAL[1];
-				map_image.at<cv::Vec3b>((119 - map_input.get_goal_cell()[1]) * amplify_num + k, map_input.get_goal_cell()[0] * amplify_num + h)[2] = COLOR_GOAL[0];
+				map_image.at<cv::Vec3b>((map_input.get_row_size() - 1 - map_input.get_row_goal()) * amplify_num + k, map_input.get_col_goal() * amplify_num + h)[0] = COLOR_GOAL[2];
+				map_image.at<cv::Vec3b>((map_input.get_row_size() - 1 - map_input.get_row_goal()) * amplify_num + k, map_input.get_col_goal() * amplify_num + h)[1] = COLOR_GOAL[1];
+				map_image.at<cv::Vec3b>((map_input.get_row_size() - 1 - map_input.get_row_goal()) * amplify_num + k, map_input.get_col_goal() * amplify_num + h)[2] = COLOR_GOAL[0];
 			}
 		}
 		
@@ -580,8 +601,8 @@ namespace map_maker_ns
 		fin >> row_num >> comma >> col_num;
 		map_loaded.set_size(col_num, row_num);
 
-		for (i = map_loaded.get_size()[1] - 1; i >= 0; --i) {
-			for (j = 0; j < map_loaded.get_size()[0]; ++j)
+		for (i = map_loaded.get_row_size() - 1; i >= 0; --i) {
+			for (j = 0; j < map_loaded.get_col_size(); ++j)
 			{
 				fin >> bit_type;
 				if (bit_type == ',')
@@ -589,7 +610,7 @@ namespace map_maker_ns
 				else
 				{
 					map_loaded.set_bit(j, i, bit_type);
-					if (bit_type == 'a' || bit_type == 'b')
+					if (bit_type == UNBLOCKED_HIGHWAY || bit_type == HARD_HIGHWAY)
 					{
 						fin >> highway_num;
 						map_loaded.col_rand_highway[highway_num-1].push_back(j);

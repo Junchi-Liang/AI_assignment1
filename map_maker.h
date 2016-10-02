@@ -58,15 +58,19 @@ namespace map_maker_ns
 			grid_map(int MAX_COLUMN=160,int MAX_ROW=120);
 			~grid_map();
 			void set_size(int MAX_COLUMN, int MAX_ROW);
-			int* get_size() const;
+			int get_col_size() const;
+			int get_row_size() const;
 			char read_bit(int position_col, int position_row) const; // return the cell in column position_col and row position_row
 			void set_bit(int position_col, int position_row, char bit_input); // set the cell in column position_col and row position_row as bit_input 
 			bool check_available(int position_col, int position_row) const;  // check if the postion(position_col, position_row) is available (legal and not blocked)
-			int* get_start_cell() const; // get the position of start cell
-			int* get_goal_cell() const; // get the positiion of goal cell
+			int get_col_start() const; // get the position of start cell
+			int get_row_start() const;
+			int get_col_goal() const; // get the positiion of goal cell
+			int get_row_goal() const; 
 			void set_start_cell(int position_col, int position_row); // set the position of start cell
 			void set_goal_cell(int position_col, int position_row); // set the position of goal cell
-			int* get_hardTraverse_cell(int index) const; // get the position of the index-th hardTraverse cell
+			int get_col_hardTraverse(int index) const; // get the position of the index-th hardTraverse cell
+			int get_row_hardTraverse(int index) const;
 			void set_hardTraverse_cell(int position_col, int position_row, int index); // set all hardTraverse cells
 	};
 
