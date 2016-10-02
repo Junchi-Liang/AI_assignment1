@@ -83,6 +83,10 @@ namespace solver_ns
 					delete[] trace_back_row;
 				trace_back_row = NULL;
 			}
+			void set_heuristic(heuristic_ns::abstract_heuristic *heuristic_input)
+			{
+				heuristic = heuristic_input;
+			}
 			
 			// the interface for solving the problem where the input map is map_input, the start point is (start_col, start_row) and the goal point is (goal_col, goal_row)
 			// return true when a path exist, otherwise return false
