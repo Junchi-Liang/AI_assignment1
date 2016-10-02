@@ -360,14 +360,14 @@ namespace map_maker_ns
 		// start cell
 		do
 		{
-			start_col = rand() % map_output.get_col_size();
-			start_row = rand() % map_output.get_row_size();
+			start_col = 1 + (rand() % map_output.get_col_size() - 2);
+			start_row = 1 + (rand() % map_output.get_row_size() - 2);
 		} while (start_col>20 && start_col<(map_output.get_col_size()-20) && start_row>20 && start_row<(map_output.get_row_size()-20));
 		// goal cell
 		do
 		{
-			goal_col = rand() % map_output.get_col_size();
-			goal_row = rand() % map_output.get_row_size();
+			goal_col = 1 + (rand() % map_output.get_col_size() - 2);
+			goal_row = 1 + (rand() % map_output.get_row_size() - 2);
 		} while ((goal_col>20 && goal_col<(map_output.get_col_size() - 20) && goal_row>20 && goal_row<(map_output.get_row_size() - 20)) \
 			|| abs(goal_row-start_row)+abs(goal_col-start_col)<100);
 		map_output.set_start_cell(start_col, start_row);
