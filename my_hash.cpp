@@ -39,7 +39,7 @@ namespace util_ns
 	{
 		if (position_col < 0 || position_col >= n_columns || position_row < 0 || position_row >= m_rows)
 			return false;
-		hash_bit[hash_index(position_col, position_row)] = true;
+		hash_bit[hash_index(position_col, position_row)] = false;
 		return true;
 	}
 

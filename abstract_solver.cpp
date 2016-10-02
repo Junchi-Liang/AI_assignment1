@@ -15,7 +15,7 @@ namespace solver_ns
 		{
 			output.list_row.push_back(cur_row);
 			output.list_col.push_back(cur_col);
-			if (cur_col == start_col && cur_row == goal_row)
+			if (cur_col == start_col && cur_row == start_row)
 				break;
 			read_trace_back(cur_col, cur_row, next_col, next_row);
 			cur_col = next_col;
@@ -29,11 +29,11 @@ namespace solver_ns
 	// if a path exists, path_output stores the output path and expanded_nodes store the number of expanded nodes
 	bool abstract_solver::solve(int start_col, int start_row, int goal_col, int goal_row, const map_maker_ns::grid_map &map_input, map_maker_ns::result_path &path_output, int &expanded_nodes)
 	{
-		int cur_col, cur_row, next_col, next_row, i, *map_size;
+		int cur_col, cur_row, next_col, next_row, i, map_size_col, map_size_row;
 		double cur_f, cur_g, next_f, next_g, edge_cost, exist_f, exist_g;
 
-		map_size = map_input.get_size();
-		init(map_input, map_size[0], map_size[1]);
+		map_input.get_size(map_size_col, map_size_row);
+		init(map_input, map_size_col, map_size_row);
 		expanded_nodes = 0;
 		fringe->insert(start_col, start_row, f(0, start_col, start_row, goal_col, goal_row, map_input), 0);
 		set_trace_back(start_col, start_row, start_col, start_row);
