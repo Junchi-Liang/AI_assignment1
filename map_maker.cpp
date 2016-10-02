@@ -438,7 +438,14 @@ namespace map_maker_ns
 	cv::Mat map_maker::show_result(const grid_map &map_input, const result_path &result)
 	{
 		cv::Mat result_map;
-		result_map = show_map_img(map_input);
+		result_map = show_map_img(map_input);		
+		
+		if (result.list_col.size() == 0)
+		{
+			printf("NOT FOUND!");
+			return result_map;
+		}
+
 		int i;
 		int k, h;
 		int amplify_num = 5;
@@ -641,6 +648,24 @@ namespace map_maker_ns
 				
 			}
 		}
+	}
+
+	// show a window with f,g,h if click the map
+	void map_maker::mouse_event(int event, int x, int y, int flags, void* param)
+	{
+		if (event == CV_EVENT_LBUTTONDBLCLK)
+		{
+			char coord[100]; // coordination of mouse in the cell
+			cv::Point text_org(50, 30);
+
+			cv::namedWindow("cell_information");
+			cv::Mat map_image(500, 500, CV_8UC3, cv::Scalar::all(255));
+			sprintf_s(coord, sizeof(coord), "col=%d, row=%d", int(floor(y / 3)), 120 - int(floor(x / 3)));
+
+			cv::putText(map_image, coord, text_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
+			cv::imshow("cell_information", map_image);
+		}
+
 	}
 
 	// read a text file in path given by src and store the map into map_loaded

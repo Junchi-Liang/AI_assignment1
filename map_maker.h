@@ -100,7 +100,7 @@ namespace map_maker_ns
 			static void read_text(char* src, grid_map &map_loaded); // read a text file in path given by src and store the map into map_loaded
 			void read_text(char* src); // read a text file in path given
 			static void reset_map_start_goal(grid_map &map_input); // change the start and goal cell in the map
-			
+			static void mouse_event(int event, int x, int y, int flags, void* param); // show a window with f,g,h if click the map
 	};
 
 }

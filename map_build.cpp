@@ -14,6 +14,7 @@ int main()
 */
 
     // create a random new map and show the result
+	char* window_name = "map_cs520_new";
 	map_maker_ns::map_maker new_map;	
 	new_map.map_build();
 	new_map.write_text_to_disk("new_data.txt");
@@ -28,8 +29,10 @@ int main()
 	delete heuristic;
 	cv::Mat new_map_result = new_map.show_result(new_map.map_output, result);
 
-	cv::namedWindow("map_cs520_new");
-	cv::imshow("map_cs520_new", new_map_result);
+
+	cv::namedWindow(window_name);
+	cvSetMouseCallback(window_name, new_map.mouse_event, NULL);
+	cv::imshow(window_name, new_map_result);
 	new_map.write_img_to_disk("new_map.jpg");
 
 	cv::waitKey();
