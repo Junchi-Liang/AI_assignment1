@@ -11,7 +11,7 @@
 #include <list>
 #include <time.h>
 #include <fstream>
-#include <highgui.h>
+#include <opencv/highgui.h>
 #include <algorithm>
 
 namespace map_maker_ns
