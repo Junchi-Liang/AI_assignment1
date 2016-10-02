@@ -46,7 +46,7 @@ namespace util_ns
 	// swap node a and node b
 	bool my_heap::swap(int a, int b)
 	{
-		int a_col = heap_col[a], a_row = heap_row[a], b_col = heap_col[b], b_row = heap_col[b];
+		int a_col = heap_col[a], a_row = heap_row[a], b_col = heap_col[b], b_row = heap_row[b];
 		double tmp_double;
 		heap_col[a] = b_col;
 		heap_row[a] = b_row;
