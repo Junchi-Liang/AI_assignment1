@@ -8,12 +8,9 @@ namespace heuristic_ns
 	class h1: public abstract_heuristic
 	{
 		public:
-		                      // return the h-value for the positon (cur_col, cur_row) while the goal position is (goal_col, goal_row) with the map, map_input
+			// return the h-value for the positon (cur_col, cur_row) while the goal position is (goal_col, goal_row) with the map, map_input
                         double h(int cur_col, int cur_row, int goal_col, int goal_row, const map_maker_ns::grid_map &map_input)
 			{
-				// debug
-				printf("debug: h1\n");
-				// debug end
 				bool first = true;
 				double min_cost;
 				int i;
@@ -25,7 +22,10 @@ namespace heuristic_ns
 					{
 						double edge_cost = map_maker_ns::result_path::moving_cost(cur_col, cur_row, next_col, next_row, map_input);
 						if (first || edge_cost < min_cost)
-							first = false, min_cost = edge_cost;
+						{
+							first = false;
+							min_cost = edge_cost;
+						}
 					}
 				}
 				if (first)
