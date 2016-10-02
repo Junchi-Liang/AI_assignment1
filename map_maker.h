@@ -41,7 +41,7 @@ namespace map_maker_ns
 	const int COLOR_HARD_TRAVERSE_HIGHWAY[3] = { 135,206,235 }; // Sky Blue
 	const int COLOR_START[3] = { 0,255,0 }; // Green
 	const int COLOR_GOAL[3] = { 255,0,0 }; // Red
-	const int COLOR_RESULT[3] = { 100,200,100 };
+	const int COLOR_RESULT[3] = { 255,255,0 };
 
 
 	// map data, assume both columns and rows start from 0

@@ -87,7 +87,7 @@ namespace map_maker_ns
 	//check if the postion(position_col, position_row) is available (legal and not blocked)
 	bool grid_map::check_available(int position_col, int position_row) const
 	{
-		if (position_col < 0 || position_col > get_col_size() || position_row < 0 || position_row > get_row_size())
+		if (position_col < 0 || position_col >= get_col_size() || position_row < 0 || position_row >= get_row_size())
 			return false;
 		if (read_bit(position_col, position_row) == BLOCKED)
 			return false;
@@ -439,22 +439,19 @@ namespace map_maker_ns
 	{
 		cv::Mat result_map;
 		result_map = show_map_img(map_input);
-		int i, j;
+		int i;
 		int k, h;
 		int amplify_num = 5;
 
-		for (i = 0; i < result.list_row.size(); ++i)
+		for (i = 1; i < result.list_row.size()-1; ++i)
 		{
-			for (j = 0; j < result.list_col.size(); ++j)
+			for (k = 1; k < amplify_num-1; ++k)
 			{
-				for (k = 0; k < amplify_num; ++k)
+				for (h = 1; h < amplify_num-1; ++h)
 				{
-					for (h = 0; h < amplify_num; ++h)
-					{
-						result_map.at<cv::Vec3b>((map_input.get_row_size() - 1 - result.list_row[i])*amplify_num + k, result.list_col[j] * amplify_num + h)[0] = COLOR_RESULT[2];
-						result_map.at<cv::Vec3b>((map_input.get_row_size() - 1 - result.list_row[i])*amplify_num + k, result.list_col[j] * amplify_num + h)[1] = COLOR_RESULT[1];
-						result_map.at<cv::Vec3b>((map_input.get_row_size() - 1 - result.list_row[i])*amplify_num + k, result.list_col[j] * amplify_num + h)[2] = COLOR_RESULT[0];
-					}
+					result_map.at<cv::Vec3b>((map_input.get_row_size() - 1 - result.list_row[i])*amplify_num + k, result.list_col[i] * amplify_num + h)[0] = COLOR_RESULT[2];
+					result_map.at<cv::Vec3b>((map_input.get_row_size() - 1 - result.list_row[i])*amplify_num + k, result.list_col[i] * amplify_num + h)[1] = COLOR_RESULT[1];
+					result_map.at<cv::Vec3b>((map_input.get_row_size() - 1 - result.list_row[i])*amplify_num + k, result.list_col[i] * amplify_num + h)[2] = COLOR_RESULT[0];
 				}
 			}
 		}
@@ -586,15 +583,15 @@ namespace map_maker_ns
 			map_loaded.row_rand_highway[i].clear();
 		}
 
-		fin >> col_start >> comma >> row_start;
+		fin >> row_start >> comma >> col_start;
 		map_loaded.set_start_cell(col_start, row_start);
 
-		fin >> col_goal >> comma >> row_goal;
+		fin >> row_goal >> comma >> col_goal;
 		map_loaded.set_goal_cell(col_goal, row_goal);
 
 		for (i = 0; i < 8; ++i)
 		{
-			fin >> hardTraverse[0] >> comma >> hardTraverse[1];
+			fin >> hardTraverse[1] >> comma >> hardTraverse[0];
 			map_loaded.set_hardTraverse_cell(hardTraverse[0], hardTraverse[1], i);
 		}
 
@@ -613,8 +610,8 @@ namespace map_maker_ns
 					if (bit_type == UNBLOCKED_HIGHWAY || bit_type == HARD_HIGHWAY)
 					{
 						fin >> highway_num;
-						map_loaded.col_rand_highway[highway_num-1].push_back(j);
-						map_loaded.row_rand_highway[highway_num-1].push_back(i);
+						map_loaded.row_rand_highway[highway_num-1].push_back(j);
+						map_loaded.col_rand_highway[highway_num-1].push_back(i);
 					}
 
 				}

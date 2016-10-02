@@ -32,7 +32,9 @@ namespace solver_ns
 		int cur_col, cur_row, next_col, next_row, i, map_size_col, map_size_row;
 		double cur_f, cur_g, next_f, next_g, edge_cost, exist_f, exist_g;
 
-		map_input.get_size(map_size_col, map_size_row);
+		// map_input.get_size(map_size_col, map_size_row);
+		map_size_col = map_input.get_col_size();
+		map_size_row = map_input.get_row_size();
 		init(map_input, map_size_col, map_size_row);
 		expanded_nodes = 0;
 		fringe->insert(start_col, start_row, f(0, start_col, start_row, goal_col, goal_row, map_input), 0);
