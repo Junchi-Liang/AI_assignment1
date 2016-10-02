@@ -21,7 +21,11 @@ namespace solver_ns
 			{
 				w = w_input;
 			}
-
+		
+			void set_w(double w_input)
+			{
+				w = w_input;
+			}
 	};
 
 }
