@@ -5,6 +5,7 @@
 
 namespace heuristic_ns
 {
+	// get the min cost among neighbors, and the heuristic is euclidean distance * min cost
 	class h1: public abstract_heuristic
 	{
 		public:
@@ -34,7 +35,7 @@ namespace heuristic_ns
 					return min_cost;
 				}
 				double dis = (cur_col - goal_col) * (cur_col - goal_col) + (cur_row - goal_row) * (cur_row - goal_row);
-				return dis * min_cost;
+				return sqrt(dis) * min_cost;
 			}
 	};
 }
