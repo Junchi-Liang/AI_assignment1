@@ -3,6 +3,10 @@
 #include "abstract_heuristic.h"
 #include "w_a_star.h"
 #include "h1.h"
+#include "h2.h"
+#include "h3.h"
+#include "h4.h"
+#include "h5.h"
 
 #include <cstring>
 
@@ -10,7 +14,11 @@ int main(int argc, char* argv[])
 {
 	heuristic_ns::abstract_heuristic *h0 = new heuristic_ns::abstract_heuristic();
 	heuristic_ns::h1 *h1_heuristic = new heuristic_ns::h1();
-	
+	heuristic_ns::h2 *h2_heuristic = new heuristic_ns::h2();
+	heuristic_ns::h3 *h3_heuristic = new heuristic_ns::h3();
+	heuristic_ns::h4 *h4_heuristic = new heuristic_ns::h4();
+	heuristic_ns::h5 *h5_heuristic = new heuristic_ns::h5();
+
 	solver_ns::w_a_star solver(h0, 1);
 	map_maker_ns::map_maker map_input;
 	map_maker_ns::result_path path_output;
@@ -36,6 +44,14 @@ int main(int argc, char* argv[])
 
 	if (strcmp((char*)(argv[2]), "1") == 0)
 		solver.set_heuristic(h1_heuristic);
+	if (strcmp((char*)(argv[2]), "2") == 0)
+		solver.set_heuristic(h2_heuristic);
+	if (strcmp((char*)(argv[2]), "3") == 0)
+		solver.set_heuristic(h3_heuristic);
+	if (strcmp((char*)(argv[2]), "4") == 0)
+		solver.set_heuristic(h4_heuristic);
+	if (strcmp((char*)(argv[2]), "5") == 0)
+		solver.set_heuristic(h5_heuristic);
 
 	w = atof((char*)(argv[3]));
 	solver.set_w(w);
@@ -49,6 +65,14 @@ int main(int argc, char* argv[])
 	h0 = NULL;
 	delete[] h1_heuristic;
 	h1_heuristic = NULL;
+	delete[] h2_heuristic;
+	h2_heuristic = NULL;
+	delete[] h3_heuristic;
+	h3_heuristic = NULL;
+	delete[] h4_heuristic;
+	h4_heuristic = NULL;
+	delete[] h5_heuristic;
+	h5_heuristic = NULL;
 
 	if (argc > 4 && strcmp((char*)(argv[4]), "y") == 0) // visualize
 	{
