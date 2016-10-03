@@ -42,6 +42,10 @@ namespace solver_ns
 
 		while (fringe->pop(cur_col, cur_row, cur_f, cur_g))
 		{
+			// record
+			set_f_table(cur_col, cur_row, cur_f);
+			set_g_table(cur_col, cur_row, cur_g);
+			set_h_table(cur_col, cur_row, heuristic->h(cur_col, cur_row, goal_col, goal_row, map_input));	
 			if (cur_col == goal_col && cur_row == goal_row)
 			{
 				build_result(start_col, start_row, goal_col, goal_row, path_output);
