@@ -680,16 +680,16 @@ namespace map_maker_ns
 				}
 
 			// coordination
-			sprintf_s(coord, sizeof(coord), "col=%d, row=%d", int(floor(x / amplify_num)), 120 - int(floor(y / amplify_num)));
+			sprintf(coord, "col=%d, row=%d", int(floor(x / amplify_num)), 120 - int(floor(y / amplify_num)));
 			cv::putText(map_image, coord, loca_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
 			// f value
-			sprintf_s(coord, sizeof(coord), "f(x) = %f", f_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
+			sprintf(coord, "f(x) = %f", f_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
 			cv::putText(map_image, coord, f_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
 			// g value
-			sprintf_s(coord, sizeof(coord), "g(x) = %f", g_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
+			sprintf(coord, "g(x) = %f", g_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
 			cv::putText(map_image, coord, g_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
 			//h value
-			sprintf_s(coord, sizeof(coord), "h(x) = %f", h_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
+			sprintf(coord, "h(x) = %f", h_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
 			cv::putText(map_image, coord, h_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
 
 			cv::imshow("cell_information", map_image);
