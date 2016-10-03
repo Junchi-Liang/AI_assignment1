@@ -38,6 +38,7 @@ int main()
 			cv::Mat map_img = map_input.show_map_img();
 			cv::imshow("map", map_img);
 			cv::waitKey();
+			cv::destroyAllWindows();
 		}
 		else if (input_number == 2) // Read map from file
 		{
@@ -51,6 +52,7 @@ int main()
 			cv::Mat map_img = map_input.show_map_img();
 			cv::imshow("map", map_img);
 			cv::waitKey();
+			cv::destroyAllWindows();
 		}
 		else if (input_number == 3) // Execute A* (WA* etc)
 		{
@@ -103,6 +105,7 @@ int main()
 
 				cv::waitKey();
 				remove("f_g_h.txt");
+				cv::destroyAllWindows();
 			}
 			else
 				printf("no path!\n");
