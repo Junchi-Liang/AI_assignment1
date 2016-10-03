@@ -13,7 +13,7 @@ int main()
 	cv::imshow("Map_CS520_old", old_map_img);
 	old_map.write_img_to_disk("old_map.jpg");
 */
-
+	cv::namedWindow("cell_information");
     // create a random new map and show the result
 	char* window_name = "map_cs520_new";
 	map_maker_ns::map_maker new_map;	
