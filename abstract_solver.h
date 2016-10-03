@@ -157,15 +157,16 @@ namespace solver_ns
 			// print f, g, h
 			void store_table(char* file_path)
 			{
-				FILE *fout = fopen(file_path, "w");
+				std::ofstream fout;
+				fout.open(file_path);
 				int i, j;
 				for (i = 0; i < m_rows; i++)
 					for (j = 0; j < n_columns; j++)
 						if (j == n_columns - 1)
-							fprintf(fout, "%f %f %f\n", get_f_table(j, i), get_g_table(j, i), get_h_table(j, i));
+							fout << get_f_table(j, i) << " " <<get_g_table(j, i) << " " << get_h_table(j, i) << std::endl;
 						else
-							fprintf(fout, "%f %f %f ", get_f_table(j, i), get_g_table(j, i), get_h_table(j, i));
-				fclose(fout);
+							fout << get_f_table(j, i) << " " << get_g_table(j, i) << " " << get_h_table(j, i) << " ";
+				fout.close();
 			}
 			
 	};

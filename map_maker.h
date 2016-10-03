@@ -31,7 +31,7 @@ namespace map_maker_ns
 	const double COST_HARD_HARD_DIAG = sqrt(8);
 	const double COST_UNBLK_HARD_HV = 1.5;
 	const double COST_UNBLK_HARD_DIAG = (sqrt(2) + sqrt(8)) / 2;
-	const double COST_HIGHWAY_COEFFICIENT = 1 / 4;
+	const double COST_HIGHWAY_COEFFICIENT = 0.25;
 
 	// color of different kinds of cell
 	const int COLOR_BLOCKED[3] = { 0,0,0 }; // Black

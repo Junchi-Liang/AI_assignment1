@@ -360,16 +360,16 @@ namespace map_maker_ns
 		// start cell
 		do
 		{
-			start_col = 1 + (rand() % map_output.get_col_size() - 2);
-			start_row = 1 + (rand() % map_output.get_row_size() - 2);
-		} while (start_col>20 && start_col<(map_output.get_col_size()-20) && start_row>20 && start_row<(map_output.get_row_size()-20));
+			start_col = 1 + rand() % (map_output.get_col_size() - 2);
+			start_row = 1 + rand() % (map_output.get_row_size() - 2);
+		} while ((start_col>20 && start_col<(map_output.get_col_size()-20) && start_row>20 && start_row<(map_output.get_row_size()-20)) || !map_output.check_available(start_col,start_row));
 		// goal cell
 		do
 		{
-			goal_col = 1 + (rand() % map_output.get_col_size() - 2);
-			goal_row = 1 + (rand() % map_output.get_row_size() - 2);
-		} while ((goal_col>20 && goal_col<(map_output.get_col_size() - 20) && goal_row>20 && goal_row<(map_output.get_row_size() - 20)) \
-			|| abs(goal_row-start_row)+abs(goal_col-start_col)<100);
+			goal_col = 1 + rand() % (map_output.get_col_size() - 2);
+			goal_row = 1 + rand() % (map_output.get_row_size() - 2);
+		} while ((goal_col>20 && goal_col<(map_output.get_col_size() - 20) && goal_row>20 && goal_row<(map_output.get_row_size() - 20)) || \
+			!map_output.check_available(goal_col, goal_row) || abs(goal_row-start_row)+abs(goal_col-start_col)<100);
 		map_output.set_start_cell(start_col, start_row);
 		map_output.set_goal_cell(goal_col, goal_row);
 	}
@@ -577,16 +577,16 @@ namespace map_maker_ns
 		// start cell
 		do
 		{
-			start_col = 1 + (rand() % mapinput.get_col_size() - 2);
-			start_row = 1 + (rand() % mapinput.get_row_size() - 2);
-		} while (start_col>20 && start_col<(mapinput.get_col_size() - 20) && start_row>20 && start_row<(mapinput.get_row_size() - 20));
+			start_col = 1 + rand() % (mapinput.get_col_size() - 2);
+			start_row = 1 + rand() % (mapinput.get_row_size() - 2);
+		} while ((start_col>20 && start_col<(mapinput.get_col_size() - 20) && start_row>20 && start_row<(mapinput.get_row_size() - 20)) || !mapinput.check_available(start_col, start_row));
 		// goal cell
 		do
 		{
-			goal_col = 1 + (rand() % mapinput.get_col_size() - 2);
-			goal_row = 1 + (rand() % mapinput.get_row_size() - 2);
-		} while ((goal_col>20 && goal_col<(mapinput.get_col_size() - 20) && goal_row>20 && goal_row<(mapinput.get_row_size() - 20)) \
-			|| abs(goal_row - start_row) + abs(goal_col - start_col)<100);
+			goal_col = 1 + rand() % (mapinput.get_col_size() - 2);
+			goal_row = 1 + rand() % (mapinput.get_row_size() - 2);
+		} while ((goal_col>20 && goal_col<(mapinput.get_col_size() - 20) && goal_row>20 && goal_row<(mapinput.get_row_size() - 20)) ||\
+			!mapinput.check_available(goal_col, goal_row) || abs(goal_row - start_row) + abs(goal_col - start_col)<100);
 		mapinput.set_start_cell(start_col, start_row);
 		mapinput.set_goal_cell(goal_col, goal_row);
 
@@ -656,14 +656,44 @@ namespace map_maker_ns
 		if (event == CV_EVENT_LBUTTONDBLCLK)
 		{
 			char coord[100]; // coordination of mouse in the cell
-			cv::Point text_org(50, 30);
+			double f_data[160][120];
+			double g_data[160][120];
+			double h_data[160][120];
+			int amplify_num = 5;
+			int i, j;
+			std::ifstream fin;
+			fin.open("f_g_h.txt");
+			cv::Point loca_org(50, 30);
+			cv::Point f_org(50, 130);
+			cv::Point g_org(50, 230);
+			cv::Point h_org(50, 330);
 
 			cv::namedWindow("cell_information");
 			cv::Mat map_image(500, 500, CV_8UC3, cv::Scalar::all(255));
-			sprintf_s(coord, sizeof(coord), "col=%d, row=%d", int(floor(y / 3)), 120 - int(floor(x / 3)));
+			//read data from f_g_h.txt
+			for (i = 0; i < 120; ++i)
+				for (j = 0; j < 160; ++j)
+				{
+					fin >> f_data[j][i];
+					fin >> g_data[j][i];
+					fin >> h_data[j][i];
+				}
 
-			cv::putText(map_image, coord, text_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
+			// coordination
+			sprintf_s(coord, sizeof(coord), "col=%d, row=%d", int(floor(x / amplify_num)), 120 - int(floor(y / amplify_num)));
+			cv::putText(map_image, coord, loca_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
+			// f value
+			sprintf_s(coord, sizeof(coord), "f(x) = %f", f_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
+			cv::putText(map_image, coord, f_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
+			// g value
+			sprintf_s(coord, sizeof(coord), "g(x) = %f", g_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
+			cv::putText(map_image, coord, g_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
+			//h value
+			sprintf_s(coord, sizeof(coord), "h(x) = %f", h_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
+			cv::putText(map_image, coord, h_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
+
 			cv::imshow("cell_information", map_image);
+			fin.close();
 		}
 
 	}

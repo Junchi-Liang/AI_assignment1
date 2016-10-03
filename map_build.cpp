@@ -4,9 +4,10 @@
 
 int main()
 {
-/*  // read olddata to create a new map
+ /* 
+	// read olddata to create a new map
 	map_maker_ns::map_maker old_map;
-	old_map.read_text("data.txt");
+	old_map.read_text("new_data.txt");
 	cv::Mat old_map_img = old_map.show_map_img();
 	cv::namedWindow("Map_CS520_old");
 	cv::imshow("Map_CS520_old", old_map_img);
@@ -20,15 +21,21 @@ int main()
 	new_map.write_text_to_disk("new_data.txt");
 	cv::Mat new_map_img = new_map.show_map_img();
 
+/*
+	char* window_name = "map_cs520_new";
+	map_maker_ns::map_maker new_map;
+	new_map.read_text("new_data.txt");
+*/
 	heuristic_ns::abstract_heuristic *heuristic = new heuristic_ns::abstract_heuristic();
 	solver_ns::uniform_cost_search solver(heuristic);
+	
 	map_maker_ns::result_path result;
 	int expanded;
 	bool temp = solver.solve(new_map.map_output.get_col_start(), new_map.map_output.get_row_start(), new_map.map_output.get_col_goal(), \
 		new_map.map_output.get_row_goal(), new_map.map_output, result, expanded);
+	solver.store_table("f_g_h.txt");
 	delete heuristic;
 	cv::Mat new_map_result = new_map.show_result(new_map.map_output, result);
-
 
 	cv::namedWindow(window_name);
 	cvSetMouseCallback(window_name, new_map.mouse_event, NULL);
