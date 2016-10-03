@@ -668,7 +668,7 @@ namespace map_maker_ns
 			cv::Point g_org(50, 230);
 			cv::Point h_org(50, 330);
 
-			cv::namedWindow("cell_information");
+			
 			cv::Mat map_image(500, 500, CV_8UC3, cv::Scalar::all(255));
 			//read data from f_g_h.txt
 			for (i = 0; i < 120; ++i)
