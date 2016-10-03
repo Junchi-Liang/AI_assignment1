@@ -6,8 +6,8 @@
 namespace heuristic_ns
 {
 	// assume the distribution of highways in neighbors is the same as the distribution in the whole map
-	// assume the distribution of hard-to-traverse in neighbors is the same as the distribution in the whole map
-	// sample the neighbors and get coverage of highways, beta, and coverage of hard-to-traverse, alpha
+	// assume the distribution of unblocked cells in neighbors is the same as the distribution in the whole map
+	// sample the neighbors and get coverage of highways, beta, and coverage of unblocked cells, alpha
 	// h = (1 - beta) * euclidean distance * (alpha + 2 * (1 - alpha)) + 0.25 * beta * manhattan distance * (alpha + 2 * (1 - alpha))
 	class h5: public abstract_heuristic
 	{
