@@ -151,6 +151,7 @@ namespace util_ns
 		position_row = heap_row[1];
 		f = heap_f[1];
 		g = heap_g[1];
+		return true;
 	}
 
 	// pop the root of the heap, return its information
