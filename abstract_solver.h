@@ -24,7 +24,7 @@ namespace solver_ns
 			virtual double f(double g, int cur_col, int cur_row, int goal_col, int goal_row, const map_maker_ns::grid_map &map_input) = 0;
 
 			// initialize with a map of size (size_of_columns * size_of_rows)
-			void init(const map_maker_ns::grid_map &map_input, int size_of_columns, int size_of_rows)
+			virtual void init(const map_maker_ns::grid_map &map_input, int size_of_columns, int size_of_rows)
 			{
 				n_columns = size_of_columns;
 				m_rows = size_of_rows;
@@ -59,48 +59,48 @@ namespace solver_ns
 			}
 
 			// read the trace back value
-			void read_trace_back(int position_col, int position_row, int &trace_column, int &trace_row)
+			virtual void read_trace_back(int position_col, int position_row, int &trace_column, int &trace_row)
 			{
 				trace_column = trace_back_col[position_row * n_columns + position_col];
 				trace_row = trace_back_row[position_row * n_columns + position_col];
 			}
 
 			// set the trace back value
-			void set_trace_back(int position_col, int position_row, int trace_column, int trace_row)
+			virtual void set_trace_back(int position_col, int position_row, int trace_column, int trace_row)
 			{
 				trace_back_col[position_row * n_columns + position_col] = trace_column;
 				trace_back_row[position_row * n_columns + position_col] = trace_row;
 			}
 
 			// build the path from (start_col, start_row) to (goal_col, goal_row) according to trace back, store the result to output
-			void build_result(int start_col, int start_row, int goal_col, int goal_row, map_maker_ns::result_path &output);
+			virtual void build_result(int start_col, int start_row, int goal_col, int goal_row, map_maker_ns::result_path &output);
 
-			void set_f_table(int position_col, int position_row, double f_input)
+			virtual void set_f_table(int position_col, int position_row, double f_input)
 			{
 				f_table[position_row * n_columns + position_col] = f_input;
 			}
 
-			double get_f_table(int position_col, int position_row)
+			virtual double get_f_table(int position_col, int position_row)
 			{
 				return f_table[position_row * n_columns + position_col];
 			}
 
-			void set_g_table(int position_col, int position_row, double g_input)
+			virtual void set_g_table(int position_col, int position_row, double g_input)
 			{
 				g_table[position_row * n_columns + position_col] = g_input;
 			}
 
-			double get_g_table(int position_col, int position_row)
+			virtual double get_g_table(int position_col, int position_row)
 			{
 				return g_table[position_row * n_columns + position_col];
 			}
 
-			void set_h_table(int position_col, int position_row, double h_input)
+			virtual void set_h_table(int position_col, int position_row, double h_input)
 			{
 				h_table[position_row * n_columns + position_col] = h_input;
 			}
 
-			double get_h_table(int position_col, int position_row)
+			virtual double get_h_table(int position_col, int position_row)
 			{
 				return h_table[position_row * n_columns + position_col];
 			}
@@ -144,7 +144,7 @@ namespace solver_ns
 					delete[] f_table;
 				f_table = NULL;
 			}
-			void set_heuristic(heuristic_ns::abstract_heuristic *heuristic_input)
+			virtual void set_heuristic(heuristic_ns::abstract_heuristic *heuristic_input)
 			{
 				heuristic = heuristic_input;
 			}
@@ -152,10 +152,10 @@ namespace solver_ns
 			// the interface for solving the problem where the input map is map_input, the start point is (start_col, start_row) and the goal point is (goal_col, goal_row)
 			// return true when a path exist, otherwise return false
 			// if a path exists, path_output stores the output path and expanded_nodes store the number of expanded nodes
-			bool solve(int start_col, int start_row, int goal_col, int goal_row, const map_maker_ns::grid_map &map_input, map_maker_ns::result_path &path_output, int &expanded_nodes);
+			virtual bool solve(int start_col, int start_row, int goal_col, int goal_row, const map_maker_ns::grid_map &map_input, map_maker_ns::result_path &path_output, int &expanded_nodes);
 
 			// print f, g, h
-			void store_table(char* file_path)
+			virtual void store_table(char* file_path)
 			{
 				std::ofstream fout;
 				fout.open(file_path);
