@@ -119,7 +119,7 @@ namespace solver_ns
 				g_table = NULL;
 				f_table = NULL;
 			}
-			~abstract_solver()
+			virtual ~abstract_solver()
 			{
 				heuristic = NULL;
 				if (fringe != NULL)
