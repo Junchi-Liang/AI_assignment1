@@ -21,6 +21,7 @@ namespace util_ns
 		public:
 			my_heap(int size_of_columns, int size_of_rows);
 			~my_heap();
+			bool empty(); // return true when the heap is empty
 			bool insert(int position_col, int position_row, double f, double g); // insert the cell (position_col, position_row) with f-value as f and g-value as g to the heap
 			bool remove(int position_col, int position_row); // remove the cell (position_col, position_row) from the heap
 			bool pop(int &position_col, int &position_row, double &f, double &g); // pop the root of the heap, return its information

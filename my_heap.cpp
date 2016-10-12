@@ -35,6 +35,12 @@ namespace util_ns
 		heap_index = NULL;
 	}
 
+	// return true when the heap is empty
+	bool empty()
+	{
+		return (size == 0);
+	}
+
 	// check if the cell (position_col, position_row) exists in the heap, return true if exists
 	bool my_heap::exist(int position_col, int position_row)
 	{
