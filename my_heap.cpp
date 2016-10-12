@@ -136,6 +136,17 @@ namespace util_ns
 		return true;
 	}
 
+	// get the root node without removing it
+	bool my_heap::get_best(int &position_col, int &position_row, double &f, double &g)
+	{
+		if (size < 1)
+			return false;
+		position_col = heap_col[1];
+		position_row = heap_row[1];
+		f = heap_f[1];
+		g = heap_g[1];
+	}
+
 	// pop the root of the heap, return its information
 	bool my_heap::pop(int &position_col, int &position_row, double &f, double &g)
 	{

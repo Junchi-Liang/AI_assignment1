@@ -28,6 +28,7 @@ namespace util_ns
 			bool exist(int position_col, int position_row); // check if the cell (position_col, position_row) exists in the heap, return true if exists
 			bool update(int position_col, int position_row, double f, double g); // update the cell (position_col, position_row) with f-value as f and g-value as g
 			bool get_value(int position_col, int position_row, double &f, double &g); // get the f and g value
+			bool get_best(int &position_col, int &position_row, double &f, double &g); // get the root node without removing it
 			static bool better(double f_a, double g_a, double f_b, double g_b); // return true when a is better than b
 	};
 
