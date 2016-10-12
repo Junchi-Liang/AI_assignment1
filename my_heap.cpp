@@ -36,7 +36,7 @@ namespace util_ns
 	}
 
 	// return true when the heap is empty
-	bool empty()
+	bool my_heap::empty()
 	{
 		return (size == 0);
 	}
