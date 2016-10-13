@@ -2,6 +2,8 @@
 #include "uniform_cost_search.h"
 #include "a_star.h"
 #include "w_a_star.h"
+#include "sequential_a_star.h"
+#include "integrated_a_star.h"
 #include "h1.h"
 #include "h2.h"
 #include "h3.h"
@@ -20,7 +22,7 @@ int main()
 	heuristic_ns::h3 *h3_h = new heuristic_ns::h3();
 	heuristic_ns::h4 *h4_h = new heuristic_ns::h4();
 	heuristic_ns::h5 *h5_h = new heuristic_ns::h5();
-
+	
 	while (1)
 	{
 		int input_number;
@@ -65,6 +67,14 @@ int main()
 			int alg, h_input;
 			int start_col, start_row, goal_col, goal_row, expanded;
 			solver_ns::abstract_solver *solver = NULL;
+
+			solver = new solver_ns::sequential_a_star(5, 1.2, 2);
+			delete solver;
+			solver = NULL;
+			solver = new solver_ns::integrated_a_star(5, 1.2, 2);
+			delete solver;
+			solver = NULL;
+
 			alg = demo_ui_ns::choose_algorithm();
 			if (alg == 1)
 				solver = new solver_ns::uniform_cost_search(NULL);
@@ -87,6 +97,8 @@ int main()
 				solver->set_heuristic(h4_h);
 			else if (h_input == 5)
 				solver->set_heuristic(h5_h);
+			else
+				solver->set_heuristic(h0_h);
 
 			start_col = map_input.map_output.get_col_start();
 			start_row = map_input.map_output.get_row_start();
