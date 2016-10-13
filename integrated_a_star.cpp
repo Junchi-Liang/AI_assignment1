@@ -85,6 +85,7 @@ namespace solver_ns
 	void integrated_a_star::expand_state(int position_col, int position_row, int goal_col, int goal_row, const map_maker_ns::grid_map &map_input)
 	{
 		int i, j;
+		double g_cur = get_g_table(position_col, position_row);
 
 		for (i = 0; i <= n_heuristic; i++)
 			if ((fringe_set[i])->exist(position_col, position_row))
@@ -99,12 +100,12 @@ namespace solver_ns
 			{
 				double g_old = get_g_table(next_col, next_row); 
 				double edge_cost = map_maker_ns::result_path::moving_cost(position_col, position_row, next_col, next_row, map_input);
-				double g_new = get_g_table(position_col, position_row) + edge_cost;
+				double g_new = g_cur + edge_cost;
 				if (g_old < 0 || g_new < g_old)
 				{
 					set_g_table(next_col, next_row, g_new);
 					set_trace_back(next_col, next_row, position_col, position_row);
-					if (!closed_anchor->exist(next_col, next_row))
+					if (!(closed_anchor->exist(next_col, next_row)))
 					{
 						double f0 = f(g_new, next_col, next_row, goal_col, goal_row, map_input, 0);
 						if (!(fringe_set[0])->exist(next_col, next_row))
@@ -113,15 +114,15 @@ namespace solver_ns
 							(fringe_set[0])->update(next_col, next_row, f0, g_new);
 						if (!closed_inad->exist(next_col, next_row))
 						{
-							for (i = 1; i <= n_heuristic; i++)
+							for (j = 1; j <= n_heuristic; j++)
 							{
-								double fi = f(g_new, next_col, next_row, goal_col, goal_row, map_input, i);
-								if (fi <= w2 * f0)
+								double fj = f(g_new, next_col, next_row, goal_col, goal_row, map_input, j);
+								if (fj <= w2 * f0)
 								{
-									if (!(fringe_set[i])->exist(next_col, next_row))
-										(fringe_set[i])->insert(next_col, next_row, fi, g_new);
+									if (!(fringe_set[j])->exist(next_col, next_row))
+										(fringe_set[j])->insert(next_col, next_row, fj, g_new);
 									else
-										(fringe_set[i])->update(next_col, next_row, fi, g_new);
+										(fringe_set[j])->update(next_col, next_row, fj, g_new);
 								}
 							}
 						}
@@ -163,9 +164,11 @@ namespace solver_ns
 				if (!has_element_0)
 					break;
 				bool has_element = (fringe_set[i])->get_best(cur_col_i, cur_row_i, fi, gi);
+				double g_goal = get_g_table(goal_col, goal_row);
+
 				if (has_element && fi <= w2 * f0)
 				{
-					if (cur_col_i ==  goal_col && cur_row_i == goal_row)
+					if (g_goal >= 0 && g_goal <= gi)
 					{
 						build_result(start_col, start_row, goal_col, goal_row, path_output);
 						return true;
@@ -181,7 +184,8 @@ namespace solver_ns
 				}
 				else
 				{
-					if (cur_col_0 == goal_col && cur_row_0 == goal_row)
+
+					if (g_goal >= 0 && g_goal <= g0)
 					{
 						build_result(start_col, start_row, goal_col, goal_row, path_output);
 						return true;
