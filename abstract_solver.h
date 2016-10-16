@@ -155,11 +155,14 @@ namespace solver_ns
 			virtual bool solve(int start_col, int start_row, int goal_col, int goal_row, const map_maker_ns::grid_map &map_input, map_maker_ns::result_path &path_output, int &expanded_nodes);
 
 			// print f, g, h
-			virtual void store_table(char* file_path)
+			virtual void store_table(char* file_path, int index_heuristic)
 			{
 				std::ofstream fout;
 				fout.open(file_path);
 				int i, j;
+
+				fout << "1" << std::endl;
+				fout << index_heuristic << std::endl;
 				for (i = 0; i < m_rows; i++)
 					for (j = 0; j < n_columns; j++)
 						if (j == n_columns - 1)

@@ -90,7 +90,12 @@ namespace solver_ns
 		for (i = 0; i <= n_heuristic; i++)
 			if ((fringe_set[i])->exist(position_col, position_row))
 			{
+				double f_cur, h_cur;
+				(fringe_set[i])->get_value(position_col, position_row, f_cur, h_cur);
 				(fringe_set[i])->remove(position_col, position_row);
+				h_cur = (f_cur - g_cur) / w1;
+				set_f_set(i, position_col, position_row, f_cur);
+				set_h_set(i, position_col, position_row, h_cur);
 			}
 		for (i = 0; i < map_maker_ns::MAX_DIR; i++)
 		{

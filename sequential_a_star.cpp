@@ -140,6 +140,9 @@ namespace solver_ns
 
 		(fringe_set[index_heuristic])->get_value(position_col, position_row, f_cur, g_cur);
 		(fringe_set[index_heuristic])->remove(position_col, position_row);
+		set_f_set(index_heuristic, position_col, position_row, f_cur);
+		set_g_set(index_heuristic, position_col, position_row, g_cur);
+		set_h_set(index_heuristic, position_col, position_row, (f_cur - g_cur) / w1);
 
 		for (i = 0; i < map_maker_ns::MAX_DIR; i++)
 		{

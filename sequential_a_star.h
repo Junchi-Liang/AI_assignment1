@@ -131,8 +131,35 @@ namespace solver_ns
 			// expanded_nodes store the number of expanded nodes (without re-count), and overall_expanded store number of expanded nodes (with re-count)
 			bool solve(int start_col, int start_row, int goal_col, int goal_row, const map_maker_ns::grid_map &map_input, map_maker_ns::result_path &path_output, int &expanded_nodes, int &overall_expanded);
 
+			// print f, g, h
+			void store_table(char* file_path, int index_admissible, const std::vector<int> &list_heuristic)
+			{
+				std::ofstream fout;
+				fout.open(file_path);
+				int i, j, k, l;
 			
+				fout << 1 + list_heuristic.size() << std::endl;
+				fout << index_admissible << std::endl;
+				for (i = 0; i < m_rows; i++)
+					for (j = 0; j < n_columns; j++)
+						if (j == n_columns - 1)
+							fout << get_f_set(0, j, i) << " " <<get_g_set(0, j, i) << " " << get_h_set(0, j, i) << std::endl;
+						else
+							fout << get_f_set(0, j, i) << " " << get_g_set(0, j, i) << " " << get_h_set(0, j, i) << " ";
+				for (k = 0; k < list_heuristic.size(); k++)
+				{
+					l = list_heuristic[k];
+					fout << l << std::endl;
+					for (i = 0; i < m_rows; i++)
+						for (j = 0; j < n_columns; j++)
+							if (j == n_columns - 1)
+								fout << get_f_set(k, j, i) << " " <<get_g_set(k, j, i) << " " << get_h_set(k, j, i) << std::endl;
+							else
+								fout << get_f_set(k, j, i) << " " << get_g_set(k, j, i) << " " << get_h_set(k, j, i) << " ";
 
+				}
+				fout.close();
+			}
 	};
 }
 
