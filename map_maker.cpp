@@ -397,7 +397,7 @@ namespace map_maker_ns
 
 		for (i = 0; i < map_output.get_col_size(); ++i)
 			for (j = 0; j < map_output.get_row_size(); ++j)
-				highway_map[i][j] = '-1';
+				highway_map[i][j] = 'n';
 
 		std::list<int> highway[2];
 		
@@ -419,13 +419,13 @@ namespace map_maker_ns
 		{
 			for (j = 0; j < map_output.get_col_size() - 1; ++j)
 			{
-				if (highway_map[j][i] == '-1')
+				if (highway_map[j][i] == 'n')
 					fout << map_output.read_bit(j, i) << ",";
 				else
 					fout << map_output.read_bit(j, i) << highway_map[j][i] << ",";
 			}
 				
-			if (highway_map[j][i] == '-1')
+			if (highway_map[j][i] == 'n')
 				fout << map_output.read_bit(j, i) << "\n";
 			else
 				fout << map_output.read_bit(j, i) << highway_map[j][i] << "\n";
