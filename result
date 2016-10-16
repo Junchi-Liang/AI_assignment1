@@ -1,0 +1,28 @@
+ucs avgPath_cost =  82.3159  avgPath_cost_ratio =  1  avgExpanded_nodes =  10354.7  avgTime_in_sec =  0.0078194   avgMemory_in_kb =  32473.7
+aStar 1  avgPath_cost =  91.2346  avgPath_cost_ratio =  1.11551  avgExpanded_nodes =  877.84  avgTime_in_sec =  0.00217938   avgMemory_in_kb =  33163.3
+aStar 2  avgPath_cost =  82.3159  avgPath_cost_ratio =  1  avgExpanded_nodes =  7261.72  avgTime_in_sec =  0.00589966   avgMemory_in_kb =  33211
+aStar 3  avgPath_cost =  139.799  avgPath_cost_ratio =  1.76327  avgExpanded_nodes =  1411.42  avgTime_in_sec =  0.00282104   avgMemory_in_kb =  33115.4
+aStar 4  avgPath_cost =  139.139  avgPath_cost_ratio =  1.75505  avgExpanded_nodes =  1368.58  avgTime_in_sec =  0.00275454   avgMemory_in_kb =  33133.2
+aStar 5  avgPath_cost =  164.522  avgPath_cost_ratio =  2.07972  avgExpanded_nodes =  2486.8  avgTime_in_sec =  0.00700042   avgMemory_in_kb =  33116.8
+wAStar 1 1.2  avgPath_cost =  95.5058  avgPath_cost_ratio =  1.17155  avgExpanded_nodes =  426.88  avgTime_in_sec =  0.00136348   avgMemory_in_kb =  33204.6
+wAStar 2 1.2  avgPath_cost =  82.3159  avgPath_cost_ratio =  1  avgExpanded_nodes =  6642.92  avgTime_in_sec =  0.0054493   avgMemory_in_kb =  33236.2
+wAStar 3 1.2  avgPath_cost =  144.941  avgPath_cost_ratio =  1.82653  avgExpanded_nodes =  1082.08  avgTime_in_sec =  0.00226606   avgMemory_in_kb =  33168
+wAStar 4 1.2  avgPath_cost =  143.565  avgPath_cost_ratio =  1.80817  avgExpanded_nodes =  1069.86  avgTime_in_sec =  0.00222816   avgMemory_in_kb =  33152.4
+wAStar 5 1.2  avgPath_cost =  172.422  avgPath_cost_ratio =  2.18035  avgExpanded_nodes =  1738.62  avgTime_in_sec =  0.00506732   avgMemory_in_kb =  33151.6
+wAStar 1 1.5  avgPath_cost =  98.0808  avgPath_cost_ratio =  1.20246  avgExpanded_nodes =  380.44  avgTime_in_sec =  0.00129904   avgMemory_in_kb =  33193.3
+wAStar 2 1.5  avgPath_cost =  82.3353  avgPath_cost_ratio =  1.00025  avgExpanded_nodes =  5731.66  avgTime_in_sec =  0.00480812   avgMemory_in_kb =  33226.1
+wAStar 3 1.5  avgPath_cost =  152.715  avgPath_cost_ratio =  1.9297  avgExpanded_nodes =  882.42  avgTime_in_sec =  0.00192388   avgMemory_in_kb =  33167.7
+wAStar 4 1.5  avgPath_cost =  151.241  avgPath_cost_ratio =  1.90175  avgExpanded_nodes =  878.94  avgTime_in_sec =  0.00193558   avgMemory_in_kb =  33162.6
+wAStar 5 1.5  avgPath_cost =  179.378  avgPath_cost_ratio =  2.26658  avgExpanded_nodes =  1288.54  avgTime_in_sec =  0.00390664   avgMemory_in_kb =  33152.1
+sequential 1.2 1.25  avgPath_cost =  82.3159  avgPath_cost_ratio =  1  avgExpanded_nodes =  10354.7  avgOverall_expanded_nodes =  13282.2  avgTime_in_sec =  0.0137467   avgMemory_in_kb =  36125.8
+sequential 1.2 1.5  avgPath_cost =  84.7991  avgPath_cost_ratio =  1.02601  avgExpanded_nodes =  10052.3  avgOverall_expanded_nodes =  13226.7  avgTime_in_sec =  0.0140365   avgMemory_in_kb =  36125.4
+sequential 1.2 2  avgPath_cost =  89.2615  avgPath_cost_ratio =  1.07781  avgExpanded_nodes =  8525.84  avgOverall_expanded_nodes =  11522.5  avgTime_in_sec =  0.0127015   avgMemory_in_kb =  36125.6
+sequential 1.5 1.25  avgPath_cost =  82.3159  avgPath_cost_ratio =  1  avgExpanded_nodes =  10325.5  avgOverall_expanded_nodes =  12930.7  avgTime_in_sec =  0.0133194   avgMemory_in_kb =  36125.2
+sequential 1.5 1.5  avgPath_cost =  82.3159  avgPath_cost_ratio =  1  avgExpanded_nodes =  10269.1  avgOverall_expanded_nodes =  13136.7  avgTime_in_sec =  0.0136017   avgMemory_in_kb =  36125
+sequential 1.5 2  avgPath_cost =  88.1447  avgPath_cost_ratio =  1.05838  avgExpanded_nodes =  9611.2  avgOverall_expanded_nodes =  12743.1  avgTime_in_sec =  0.0136576   avgMemory_in_kb =  36125
+integrated 1.2 1.25  avgPath_cost =  82.3906  avgPath_cost_ratio =  1.00066  avgExpanded_nodes =  7536.78  avgOverall_expanded_nodes =  7544.6  avgTime_in_sec =  0.0133914   avgMemory_in_kb =  34814.2
+integrated 1.2 1.5  avgPath_cost =  83.0306  avgPath_cost_ratio =  1.00767  avgExpanded_nodes =  5932.54  avgOverall_expanded_nodes =  5947.78  avgTime_in_sec =  0.0111764   avgMemory_in_kb =  34813.8
+integrated 1.2 2  avgPath_cost =  84.1031  avgPath_cost_ratio =  1.01809  avgExpanded_nodes =  4370.7  avgOverall_expanded_nodes =  4430.92  avgTime_in_sec =  0.00921272   avgMemory_in_kb =  34813.8
+integrated 1.5 1.25  avgPath_cost =  82.4164  avgPath_cost_ratio =  1.00092  avgExpanded_nodes =  7656.76  avgOverall_expanded_nodes =  7666.52  avgTime_in_sec =  0.0134715   avgMemory_in_kb =  34813.5
+integrated 1.5 1.5  avgPath_cost =  83.0766  avgPath_cost_ratio =  1.00779  avgExpanded_nodes =  6188.9  avgOverall_expanded_nodes =  6210.86  avgTime_in_sec =  0.0113886   avgMemory_in_kb =  34813.8
+integrated 1.5 2  avgPath_cost =  84.3854  avgPath_cost_ratio =  1.02153  avgExpanded_nodes =  4573.24  avgOverall_expanded_nodes =  4611.4  avgTime_in_sec =  0.0093184   avgMemory_in_kb =  34814.2
