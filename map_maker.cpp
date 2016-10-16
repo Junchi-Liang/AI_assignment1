@@ -397,7 +397,7 @@ namespace map_maker_ns
 
 		for (i = 0; i < map_output.get_col_size(); ++i)
 			for (j = 0; j < map_output.get_row_size(); ++j)
-				highway_map[i][j] = '0';
+				highway_map[i][j] = '-1';
 
 		std::list<int> highway[2];
 		
@@ -408,7 +408,7 @@ namespace map_maker_ns
 			std::copy(map_output.row_rand_highway[i].begin(), map_output.row_rand_highway[i].end(), std::back_inserter(highway[1]));
 			while (highway[0].size() != 0)
 			{
-				highway_map[highway[0].back()][highway[1].back()] = '1' + i;
+				highway_map[highway[0].back()][highway[1].back()] = '0' + i;
 				highway[0].pop_back();
 				highway[1].pop_back();
 			}
@@ -419,13 +419,13 @@ namespace map_maker_ns
 		{
 			for (j = 0; j < map_output.get_col_size() - 1; ++j)
 			{
-				if (highway_map[j][i] == '0')
+				if (highway_map[j][i] == '-1')
 					fout << map_output.read_bit(j, i) << ",";
 				else
 					fout << map_output.read_bit(j, i) << highway_map[j][i] << ",";
 			}
 				
-			if (highway_map[j][i] == '0')
+			if (highway_map[j][i] == '-1')
 				fout << map_output.read_bit(j, i) << "\n";
 			else
 				fout << map_output.read_bit(j, i) << highway_map[j][i] << "\n";
@@ -640,8 +640,8 @@ namespace map_maker_ns
 					if (bit_type == UNBLOCKED_HIGHWAY || bit_type == HARD_HIGHWAY)
 					{
 						fin >> highway_num;
-						map_loaded.row_rand_highway[highway_num-1].push_back(j);
-						map_loaded.col_rand_highway[highway_num-1].push_back(i);
+						map_loaded.row_rand_highway[highway_num].push_back(j);
+						map_loaded.col_rand_highway[highway_num].push_back(i);
 					}
 
 				}
@@ -655,43 +655,63 @@ namespace map_maker_ns
 	{
 		if (event == CV_EVENT_LBUTTONDBLCLK)
 		{
-			char coord[100]; // coordination of mouse in the cell
-			double f_data[160][120];
-			double g_data[160][120];
-			double h_data[160][120];
-			int amplify_num = 5;
-			int i, j;
+			int h_num = 0;
+			int k;
 			std::ifstream fin;
 			fin.open("f_g_h.txt");
-			cv::Point loca_org(50, 30);
-			cv::Point f_org(50, 130);
-			cv::Point g_org(50, 230);
-			cv::Point h_org(50, 330);
-
+			fin >> h_num;
+			cv::Point loca_org(50, 25);
 			cv::namedWindow("cell_information");
-			cv::Mat map_image(500, 500, CV_8UC3, cv::Scalar::all(255));
-			//read data from f_g_h.txt
-			for (i = 0; i < 120; ++i)
-				for (j = 0; j < 160; ++j)
+			cv::Mat map_image(800, 500, CV_8UC3, cv::Scalar::all(255));
+			int amplify_num = 5;
+
+
+			for (k = 0; k < h_num; ++k) {
+				char coord[100]; // coordination of mouse in the cell
+				double f_data[160][120];
+				double g_data[160][120];
+				double h_data[160][120];
+				
+				int i, j;
+				int h_name;
+
+				cv::Point f_org(50, 50 + k * 90);
+				cv::Point g_org(50, 80 + k * 90);
+				cv::Point h_org(50, 110 + k * 90);
+				cv::Point line_left_org(25, 30 + k * 90);
+				cv::Point line_right_org(475, 30 + k * 90);
+
+				// read data from f_g_h.txt
+				fin >> h_name;
+				for (i = 0; i < 120; ++i)
+					for (j = 0; j < 160; ++j)
+					{
+						fin >> f_data[j][i];
+						fin >> g_data[j][i];
+						fin >> h_data[j][i];
+					}
+
+				if (k == 0)
 				{
-					fin >> f_data[j][i];
-					fin >> g_data[j][i];
-					fin >> h_data[j][i];
+					// coordination
+					sprintf(coord, "col=%d, row=%d", int(floor(x / amplify_num)), 120 - int(floor(y / amplify_num)));
+					cv::putText(map_image, coord, loca_org, CV_FONT_HERSHEY_SIMPLEX, 0.6, cv::Scalar::all(0), 2, 8);
+					cv::line(map_image, line_left_org, line_right_org,cv::Scalar::all(0),2);
 				}
+				// f value
+				sprintf(coord, "f%d(x) =%.3f", h_name, f_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
+				cv::putText(map_image, coord, f_org, CV_FONT_HERSHEY_SIMPLEX, 0.6, cv::Scalar::all(0), 2, 8);
+				// g value
+				sprintf(coord, "g%d(x) = %.3f", h_name, g_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
+				cv::putText(map_image, coord, g_org, CV_FONT_HERSHEY_SIMPLEX, 0.6, cv::Scalar::all(0), 2, 8);
+				//h value
+				sprintf(coord, "h%d(x) = %.3f", h_name, h_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
+				cv::putText(map_image, coord, h_org, CV_FONT_HERSHEY_SIMPLEX, 0.6, cv::Scalar::all(0), 2, 8);
+				//line
+				cv::line(map_image, line_left_org, line_right_org, cv::Scalar::all(0), 2);
+			}
 
-			// coordination
-			sprintf(coord, "col=%d, row=%d", int(floor(x / amplify_num)), 120 - int(floor(y / amplify_num)));
-			cv::putText(map_image, coord, loca_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
-			// f value
-			sprintf(coord, "f(x) = %f", f_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
-			cv::putText(map_image, coord, f_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
-			// g value
-			sprintf(coord, "g(x) = %f", g_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
-			cv::putText(map_image, coord, g_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
-			//h value
-			sprintf(coord, "h(x) = %f", h_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
-			cv::putText(map_image, coord, h_org, CV_FONT_HERSHEY_SIMPLEX, 1, cv::Scalar::all(0), 2, 8);
-
+			
 			cv::imshow("cell_information", map_image);
 			fin.close();
 		}
