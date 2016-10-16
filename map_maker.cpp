@@ -699,7 +699,7 @@ namespace map_maker_ns
 					cv::line(map_image, line_left_org, line_right_org,cv::Scalar::all(0),2);
 				}
 				// f value
-				sprintf(coord, "f%d(x) =%.3f", h_name, f_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
+				sprintf(coord, "f%d(x) = %.3f", h_name, f_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);
 				cv::putText(map_image, coord, f_org, CV_FONT_HERSHEY_SIMPLEX, 0.6, cv::Scalar::all(0), 2, 8);
 				// g value
 				sprintf(coord, "g%d(x) = %.3f", h_name, g_data[int(floor(x / amplify_num))][120 - int(floor(y / amplify_num))]);

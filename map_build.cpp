@@ -4,7 +4,7 @@
 
 int main()
 {
-/*
+
 	// read olddata to create a new map
 	map_maker_ns::map_maker old_map;
 	old_map.read_text("map2.txt");
@@ -14,7 +14,8 @@ int main()
 	old_map.write_img_to_disk("old_map.jpg");
 	cvSetMouseCallback("Map_CS520_old", old_map.mouse_event, NULL);
 	cv::waitKey();
-*/
+
+/*
 	for (int i = 0; i < 5; ++i) {
 		map_maker_ns::map_maker map;
 		map.map_build();
@@ -25,6 +26,7 @@ int main()
 			map.write_text_to_disk(file_name);
 		}
 	}
+*/
 	
 /*
 	cv::namedWindow("cell_information");
