@@ -42,6 +42,9 @@ int main(int argc, char* argv[])
 		w2 = atof((char*)(argv[3]));
 		n_heuristic = atoi((char*)(argv[4]));
 		solver_ns::integrated_a_star solver(n_heuristic, w1, w2);
+		solver_ns::uniform_cost_search answer(h0);
+		double answer_path_cost;
+		int answer_expanded;
 
 		for (int i = 0; i <= n_heuristic; i++)
 		{
@@ -59,11 +62,23 @@ int main(int argc, char* argv[])
 				solver.set_heuristic(i, h0);
 		}
 
+		answer.solve(start_col, start_row, goal_col, goal_row, map_input.map_output, path_output, answer_expanded);
+		answer_path_cost = path_output.compute_cost(map_input.map_output);
+		auto start_time = std::chrono::steady_clock::now();
 		if (!solver.solve(start_col, start_row, goal_col, goal_row, map_input.map_output, path_output, expanded, overall_expanded))
 			printf("no path\n");
 		else
-			printf("%f %d %d\n", path_output.compute_cost(map_input.map_output), expanded, overall_expanded);
+		{
+			auto end_time = std::chrono::steady_clock::now();
+			auto diff_time = end_time - start_time;
+			double diff_sec = (double)(std::chrono::duration_cast<std::chrono::nanoseconds>(diff_time).count()) / 1000000;
+			diff_sec /= 1000;
+			int memUsedByThis = util_ns::get_value_for_memory();
+			double path_cost = path_output.compute_cost(map_input.map_output);
 
+			// path_cost path_cost_ratio expanded_nodes overal_expanded_nodes time_in_sec memory_in_kb
+			printf("%lf %lf %d %d %lf %d\n", path_cost, path_cost / answer_path_cost, expanded, overall_expanded, diff_sec, memUsedByThis);
+		}
 
 		if (argc > 6 + n_heuristic && strcmp((char*)(argv[6 + n_heuristic]), "y") == 0) // visualize
 		{

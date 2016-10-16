@@ -4,6 +4,12 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
+
+#include <chrono>
+
+#include "sys/types.h"
+#include "sys/sysinfo.h"
 
 namespace util_ns
 {
@@ -47,7 +53,12 @@ namespace util_ns
 			bool remove(int position_col, int position_row); // remove the cell (position_col, position_row) from the hash
 			bool exist(int position_col, int position_row); // check if the cell (position_col, position_row) exists in the hash
 	};
-		
+	
+	// interfaces for computing memory usuage
+	int parse_line_for_memory(char* line);
+
+	int get_value_for_memory();
+
 }
 
 #endif
